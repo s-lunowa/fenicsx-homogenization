@@ -1,0 +1,11 @@
+# output files
+darcy/
+stokes/
+# numpy / vtk files
+*.npy
+*.vtk
+*.log
+# python temporary files
+__pycache__/
+# PDF files
+*.pdf

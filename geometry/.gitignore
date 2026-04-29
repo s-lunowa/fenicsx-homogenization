@@ -1,0 +1,7 @@
+# generated mesh files
+*.msh
+*.stl
+centerlines.obj
+# exclude artificial vessel
+!artificial_vessel/vessel.stl
+!artificial_vessel/aneurysm.stl
