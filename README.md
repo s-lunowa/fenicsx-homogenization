@@ -4,10 +4,10 @@ This repository contains FEniCSx implementations of Stokes and Darcy flow using
 the non-conforming mixed BDM-DG and RT-DG elements (discrete divergence-free).
 
 This software contains the implementation of the numerical simulations presented
-in section 4 of the following pubication:  
-L. Balazi, F. Holzberger, S.B. Lunowa, M.A. Peter, D. Peterseim, & B. Wohlmuth
-(2025), *Effective permeabilities for flow through anisotropic microscopic
-geometries*, [arXiv:2512.04133](https://arxiv.org/abs/2512.04133) (2025).
+in section 4 of the corresponding publication:  
+L. Balazi, F. Holzberger, S.B. Lunowa, M.A. Peter, D. Peterseim, & B. Wohlmuth,
+*Effective permeabilities for flow through anisotropic microscopic geometries*,
+[arXiv:2512.04133](https://arxiv.org/abs/2512.04133) (2025).
 
 The authors of this software are F. Holzberger and S.B. Lunowa.
 
