@@ -1,6 +1,6 @@
 import pyvista as pv
 import numpy as np
-import matplotlib.pyplot as plt
+
 
 # =====================================================
 #  — Single-field interpolation
@@ -100,6 +100,7 @@ def get_vtk_bounding_box(vtk_path, scale=1.0):
 #  — Sampling + Multi-field plotting
 # =====================================================
 def sample_and_plot_all_fields(vtk_path, n_points=1000, scale=1.0):
+    import matplotlib.pyplot as plt
     """
     Sample random points in the XY mid-plane of a VTK dataset,
     interpolate porosity and wire direction components,

@@ -1,5 +1,14 @@
+import os
+import sys
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
+os.chdir(script_dir)
+
+if script_dir not in sys.path:
+    sys.path.insert(0, script_dir)
+
+from rev_data import REVData
 import bpy
-import numpy as np
 # Script to reconstruct REVs for the real case.
 #
 # This script must be run using Blender’s Python environment (bpy).
@@ -16,8 +25,11 @@ import numpy as np
 bpy.ops.object.select_all(action='SELECT')
 bpy.ops.object.delete()
 
+print("Current working directory:", os.getcwd())
+print("Script directory:", os.path.dirname(os.path.abspath(__file__)))
+
 # Import the OBJ mesh
-filepath = "../real_case/coils.obj"
+filepath = "../geometry/real_case/coils.obj"
 bpy.ops.wm.obj_import(
     filepath=filepath,
     forward_axis='Y',
@@ -28,25 +40,13 @@ base_obj = bpy.context.selected_objects[0]
 print("Imported object:", base_obj.name)
 
 # Output directory
-outdir = "./"
+outdir = "./data/REVs"
+
+# Create folder if missing
+os.makedirs(outdir, exist_ok=True)
 
 # Positions to process
-positions = -1*np.array([
-    [6.008,   6.0037, 3.4961],
-    [8,       3.8,    3],
-    [7,       6.5,    4],
-    [5.67,    6.82,   2.6],
-    [7.4735,  6.262,  3.9615],
-    [8.3517,  5.2054, 6.60],
-    [5.68,    7.27,   2.61],
-    [6.144,   7.72,   3.4894],
-    [9.1149,  6.9253, 3.5424],
-    [6.9426,  7.15,   3.6673],
-    [9.2,     4.07,   3.45],
-    [7.5,     7.11,   1.98],
-    [7.2,     5.0,    2.8],
-    [7.89,    3.97,   3.98]
-])
+positions = REVData.get_REV_positions(mode="array")
 
 # Store volumes
 volumes = []
@@ -87,6 +87,7 @@ for i, pos in enumerate(positions, start=1):
     bpy.ops.wm.obj_export(
         filepath=outfile,
         export_selected_objects=True,
+        export_materials=False,
         forward_axis='Y',
         up_axis='Z'
     )

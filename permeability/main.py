@@ -4,7 +4,7 @@ import os
 
 from aneurysm import Aneurysm, test_sampling_grid_properties
 from homogenizer import Homogenizer
-from validation import realCaseValidation
+from validation import realCaseValidation, revSensitivityAnalysis, run_blender_script
 
 def run_tests():
     test_sampling_grid_properties()
@@ -110,18 +110,37 @@ def spiralHomogenization():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
+
     parser.add_argument(
         "-c",
         "--case",
-        choices=["cylinder_spiral", "artificial_vessel", "real_vessel"],
-        default="real_vessel",
+        choices=[
+            "cylinder_spiral",
+            "artificial_vessel",
+            "real_vessel",
+            "real_vessel_validation",
+            "rev_sensitivity",
+            "generate_revs",
+        ],
+        default="real_vessel_validation",
     )
+
     args = parser.parse_args()
 
     if args.case == "cylinder_spiral":
         spiralHomogenization()
+
     elif args.case == "artificial_vessel":
         artivifialVesselHomogenization()
+
     elif args.case == "real_vessel":
         realCaseHomogenization()
-        # realCaseValidation(40)
+
+    elif args.case == "real_vessel_validation":
+        realCaseValidation(40)
+
+    elif args.case == "rev_sensitivity":
+        revSensitivityAnalysis(N_values=(30,40,50,60))
+
+    elif args.case == "generate_revs":
+        run_blender_script("./permeability/rev_generation.py")

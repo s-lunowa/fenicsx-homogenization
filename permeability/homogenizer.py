@@ -88,7 +88,7 @@ class Homogenizer():
         """
         Construct a 3×3 orthonormal rotation matrix R such that:
 
-            R[:,0] = e1 = normalized(self.homogenized_tangent)
+            R[:,-1] = e1 = normalized(self.homogenized_tangent)
 
         Remaining columns e2, e3 are built via a stable Gram–Schmidt process.
 
@@ -172,10 +172,10 @@ class Homogenizer():
         # Build rotation matrices
         if return_single:
             # Single (3, 3) rotation matrix
-            R = np.column_stack([e1[0], e2[0], e3[0]])
+            R = np.column_stack([e2[0], e3[0], e1[0]])
         else:
             # Multiple (N, 3, 3) rotation matrices
-            R = np.stack([e1, e2, e3], axis=2)
+            R = np.stack([e2, e3, e1], axis=2)
 
         self.R = R
 
@@ -190,7 +190,7 @@ class Homogenizer():
                 raise ValueError("Domain empty. Cannot calculate average.")
             phi_wall = obstacle_points / domain_points
         elif self.wall_boundary_condition == "reflection":
-            phi_wall = 1.0 # TODO check if this is the correct value for the reflection
+            phi_wall = 1.0 
         self.phi_wall = phi_wall
         self.volume_fraction_not_averaged[~self.homogenization_full_domain] = phi_wall
         self.volume_fraction_not_averaged[self.homogenization_obstacle] = 1.0
