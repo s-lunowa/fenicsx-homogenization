@@ -7,16 +7,13 @@
 
 # Get the directory of the script
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-
 CONTAINER_NAME="fenicsx-homogenization"
 
-echo "Build docker image '$name' with : "
+echo "Build docker image '${CONTAINER_NAME}' with : "
 docker --version
 
 if [ "$(uname)" == "Darwin" ]; then
-    docker buildx build $DIR --network=host --platform linux/arm64 \
-           -t $CONTAINER_NAME --load
+    docker buildx build $DIR --network=host -t ${CONTAINER_NAME} --platform linux/arm64 --load
 else
-    docker build $DIR --build-arg UID=$(id -u) --build-arg GID=$(id -g) \
-           --network=host -t $CONTAINER_NAME
+    docker build $DIR --network=host -t ${CONTAINER_NAME}
 fi

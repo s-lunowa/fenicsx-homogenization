@@ -70,14 +70,44 @@ The resulting files are in the directory `geometry/artificial_vessel/`.
 
 ## 3. Porosity and wire direction averaging
 
-To generate the porosity and wire direction fields from the `cylinder_spiral`
-and `artificial_vessel` geometry, run the following command:  
-```
+The different workflows can be executed via
+
+```bash
 python3 permeability/main.py -c <case>
 ```
-Here, `<case>` is  either `cylinder_spiral` or `artificial_vessel`. This creates
-averages with various parameters in the directory `permeability/data/<case>/`.
 
+Available cases are:
+
+| Case | Description |
+|--------|-------------|
+| `cylinder_spiral` | Generate porosity, wire direction, and permeability fields for the idealized cylinder spiral geometry. |
+| `artificial_vessel` | Generate porosity, wire direction, and permeability fields for the artificial vessel geometry. |
+| `real_vessel` | Generate porosity, wire direction, and permeability fields for the real aneurysm geometry. |
+| `real_vessel_validation` | Compare homogenized porosity and permeability directions against the 12 reference REVs. |
+| `real_perturbation_analysis` | Analyze sensitivity of reconstructed permeability tensors with respect to small orientation perturbations. |
+| `rev_sensitivity` | Analyze sensitivity of porosity, direction, and permeability fields with respect to REV resolution. |
+| `generate_revs` | Generate the 12 validation REVs from the real aneurysm geometry using Blender. |
+
+For the averaging cases
+
+```text
+cylinder_spiral
+artificial_vessel
+real_vessel
+```
+
+the resulting fields are written to
+
+```text
+permeability/data/<case>/
+```
+
+For the validation and sensitivity cases, summary statistics are printed to the console and additional output files are written to the corresponding subdirectories of
+
+```text
+permeability/data/
+```
+where applicable.
 
 ## 4. Stokes flow simulations
 

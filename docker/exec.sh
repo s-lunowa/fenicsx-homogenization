@@ -4,5 +4,4 @@
 #
 # Author: S.B. Lunowa
 
-CONTAINER_NAME="fenicsx-homogenization"
-docker exec --user ubuntu -it $CONTAINER_NAME /bin/bash
+docker exec --user ubuntu -it "fenicsx-homogenization" /bin/bash

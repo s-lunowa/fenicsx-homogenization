@@ -11,11 +11,10 @@ RUN apt update && apt install -y \
   man \
   nano \
   software-properties-common \
-  sudo \
   time \
   python3-pip
 RUN if ! [ -L /etc/localtime ]; then \
-    sudo ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime; \
+    ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime; \
   fi
 
 # Install further packages and clear cache
@@ -29,12 +28,8 @@ RUN apt update && apt install -y \
   && apt clean
 
 # Setup a config for Git
-RUN git config --system user.name "Docker" && \
-  git config --system user.email test@docker.com
-
-# Recursive chown is incredibly slow in docker https://github.com/docker/for-linux/issues/388
-# -> Give other users full permission to skip this step when UID and GID are changed.
-RUN chmod -R o=rwX /home/ubuntu
+RUN git config --system user.name "test" && \
+  git config --system user.email test@test.com
 
 # Handle the user
 USER ubuntu
@@ -44,7 +39,11 @@ COPY requirements.txt /tmp/requirements.txt
 
 # install python deps
 RUN python3 -m pip install --break-system-packages --upgrade pip && \
-    python3 -m pip install --break-system-packages -r /tmp/requirements.txt
+  python3 -m pip install --break-system-packages -r /tmp/requirements.txt
+
+# Recursive chown is incredibly slow in docker https://github.com/docker/for-linux/issues/388
+# -> Give other users full permission to skip this step when UID and GID are changed.
+RUN chmod o=rwX -R $HOME
 
 # Create entrypoint
 COPY entrypoint.sh /entrypoint.sh 

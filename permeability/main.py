@@ -4,7 +4,7 @@ import os
 
 from aneurysm import Aneurysm, test_sampling_grid_properties
 from homogenizer import Homogenizer
-from validation import realCaseValidation, revSensitivityAnalysis, run_blender_script
+from validation import realCasePerturbationAnalysis, realCaseValidation, revSensitivityAnalysis, run_blender_script
 
 def run_tests():
     test_sampling_grid_properties()
@@ -119,28 +119,48 @@ if __name__ == "__main__":
             "artificial_vessel",
             "real_vessel",
             "real_vessel_validation",
+            "real_perturbation_analysis",
             "rev_sensitivity",
             "generate_revs",
         ],
         default="real_vessel_validation",
+        help="""
+    cylinder_spiral           : Homogenization of idealized spiral coil geometry.
+    artificial_vessel         : Homogenization of artificial vessel benchmark.
+    real_vessel               : Homogenization of the real aneurysm case.
+    real_vessel_validation    : Validate porosity and permeability directions against REV reference data.
+    real_perturbation_analysis: Sensitivity of permeability tensors to orientation perturbations.
+    rev_sensitivity           : Sensitivity of homogenized quantities with respect to REV resolution N.
+    generate_revs             : Generate validation REVs using the Blender workflow.
+    """,
     )
 
     args = parser.parse_args()
 
     if args.case == "cylinder_spiral":
+        print("Running homogenization of idealized spiral coil geometry...")
         spiralHomogenization()
 
     elif args.case == "artificial_vessel":
+        print("Running homogenization of artificial vessel benchmark...")
         artivifialVesselHomogenization()
 
     elif args.case == "real_vessel":
+        print("Running homogenization of the real aneurysm case...")
         realCaseHomogenization()
 
     elif args.case == "real_vessel_validation":
+        print("Running validation against REV porosity and permeability data...")
         realCaseValidation(40)
 
+    elif args.case == "real_perturbation_analysis":
+        print("Running orientation perturbation sensitivity analysis...")
+        realCasePerturbationAnalysis(40)
+
     elif args.case == "rev_sensitivity":
+        print("Running REV resolution sensitivity study...")
         revSensitivityAnalysis(N_values=(30,40,50,60))
 
     elif args.case == "generate_revs":
+        print("Generating validation REVs with Blender...")
         run_blender_script("./permeability/rev_generation.py")
